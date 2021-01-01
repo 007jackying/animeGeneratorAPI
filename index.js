@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const pool = require('./db');
 const request = require('request');
+const PORT = process.env.PORT || 5000;
 
 
 const userRoutes = require('./routes/user');
@@ -26,8 +27,8 @@ app.use('/user', userRoutes);
 app.use('/anime', animeRoutes);
 
 
-app.listen(3300, () => {
-    console.log("server is listening to port 3300");
+app.listen(PORT, () => {
+    console.log("server is listening to port ",PORT);
 });
 
 app.use((req, res, next) => {
