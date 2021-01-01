@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "anesthesia",
+        "database": "dbAnime",
+        "host": "192.168.2.100",
+        "port": "9005",
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "postgres",
+        "password": "anesthesia",
+        "database": "dbAnime",
+        "host": "192.168.2.100",
+        "port": 9005,
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "postgres",
+        "password": "anesthesia",
+        "database": "dbAnime",
+        "host": "192.168.2.100",
+        "port": 9005,
+        "dialect": "postgres"
+    }
+}
