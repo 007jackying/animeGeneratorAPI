@@ -39,17 +39,30 @@ router.get('/getuser/:id', async (req, res, next) => {
                 })
 
             })
+        let lengthy = watchlist.length;
+        if (lengthy === 300) {
+            await malScraper.getWatchListFromUser(username, lengthy, type)
+                .then((data2) => {
+                    console.log("data returned ");  Array.prototype.push.apply(watchlist,data2);
+                })
+                .catch((err) => {
+                    console.log("error occrured");
+                    res.status(404).json({
+                        message: "notfound"
+                    })
+                })
+            console.log('length: ', watchlist.length);
+        }
         res.status(200).json({
             data: watchlist
         })
-
-
+       
     } catch (error) {
-        console.log("error catched")
-        res.status(400).json({
-            error: "Bad request, user doesnt exist"
-        })
-    }
+    console.log("error catched")
+    res.status(400).json({
+        error: "Bad request, user doesnt exist"
+    })
+}
 
 
 })
@@ -171,7 +184,7 @@ router.post('/getByurl', async (req, res, next) => {
             const url = req.body.link;
             // const url = 'https://myanimelist.net/anime/20047/Sakura_Trick'
 
-           await malScraper.getInfoFromURL(url)
+            await malScraper.getInfoFromURL(url)
                 .then(
                     (data) => {
                         res.status(201).json({

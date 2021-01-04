@@ -6,16 +6,18 @@ const checkAuth = require('../middleware/check-auth');
 const Op = require('Sequelize').Op;
 
 exports.save = (req, res, next) => {
+    console.log('coming in',req.body);
+    const package = req.body;
     const userData = {
-        email: req.body.email,
-        username: req.body.username,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        password: bcrypt.hashSync(req.body.password, 10, (err, hash) => {
+        email: package.email,
+        username: package.username,
+        firstName: package.firstName,
+        lastName: package.lastName,
+        password: bcrypt.hashSync(package.password, 10, (err, hash) => {
             if (err) {
                 console.log(err);
                 res.status(500).json({
-                    message: "HASH ",
+                    status: "HASH ",
                     error: err.message
                 })
             } else {
@@ -26,40 +28,44 @@ exports.save = (req, res, next) => {
         status: true
     }
 
-    user.findOne({
+   const validate = user.findOne({
             where: {
-                email: req.body.email
+                email: package.email
             }
         }).then(users => {
             if (!users) {
                 user.create(userData)
                     .then(user => {
-                        res.json({ status: user.email + " is registered" });
+                        res.status(201).json({ status: user.email + " is registered" });
                     }).catch(err => {
                         res.send("Error: " + err)
                     })
             } else {
-                res.json({ error: 'User Already Exist' })
+                console.log("User Already Exist")
+                res.send({ status: 'User Already Exist' })
             }
         })
         .catch(err => {
-            res.send("Error: " + err)
+            res.status(500).json({status: "Failed to register! Server Error(Please email dreamerofjack@gmail.com for assistance)"})
         })
+    console.log("find result (register):",validate);
 }
 
 exports.login = (req, res, next) => {
+    console.log('someone is trying to login',req.body);
     try {
         if (req.body.email || req.body.username) {
-            user.findOne({
+          const validate =  user.findOne({
                 where: {
                     [Op.or]: [{ email: req.body.email ? req.body.email : null }, { username: req.body.username ? req.body.username : null }]
                 }
             }).then(users => {
-                console.log("users: ", users);
+                // console.log("users: ", users);
                 bcrypt.compare(req.body.password, users.password, (err, result) => {
                     if (err) {
-                        res.status(401).json({
-                            message: 'Authentication Failed'
+                        console.log("Authentication failed, password")
+                        res.send({
+                            status: 'Authentication Failed'
                         })
                     }
                     if (result) {
@@ -69,21 +75,26 @@ exports.login = (req, res, next) => {
                         }, privatekey, {
                             expiresIn: '1h'
                         })
-                        return res.status(200).json({
-                            message: "Authentication Successful",
-                            token: token
+                        console.log("Authentication successful, token sent")
+                        return res.send({
+                            status: "Authentication Successful",
+                            accessToken: token
                         })
                     }
                 })
             })
+            console.log("====================================");
+            console.log("validate data (login), ",validate);
         } else {
-            res.status(401).json({
-                message: "Authentication failed"
+            console.log("Authentication failed not sure")
+            res.send({
+                status: "Authentication failed"
             })
         }
     } catch (err) {
-        res.status(500).json({
-            message: "Login Failed",
+        console.log("Authentication failed, not sure")
+        res.send({
+            status: "Login Failed",
             error: err.message
         });
     }
