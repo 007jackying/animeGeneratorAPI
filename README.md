@@ -1,6 +1,6 @@
 # animeGeneratorAPI
 
-You can acctually connect the api through this endpoint: https://www.thlee.site/('function')/('data')
+You can acctually connect the api through this endpoint: https://www.thlee.site/  + ('function')/('data')
 This is an anime RESTFUL API where it act like a stateless server to supply Myanimelist.net data as a json to the client 
 
 1. launch terminal, navigate to this folder
