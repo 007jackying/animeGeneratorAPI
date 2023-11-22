@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const privatekey = 'ky2AM^wWKq8whN1v#l8*BPi333eOwoe7';
 const checkAuth = require('../middleware/check-auth');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 
 exports.save = (req, res, next) => {
     console.log('coming in',req.body);
