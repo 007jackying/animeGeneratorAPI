@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const pool = require('./db');
 const request = require('request');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 
 const userRoutes = require('./routes/user');
@@ -25,6 +25,9 @@ app.use((req, res, next) => {
 app.use(express.json()) //=>req.body
 app.use('/user', userRoutes);
 app.use('/anime', animeRoutes);
+app.use('/', (req, res) => {
+    res.send('Welcome to the Anime API')
+})
 
 
 app.listen(PORT, () => {
