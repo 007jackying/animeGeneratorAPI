@@ -25,9 +25,6 @@ app.use((req, res, next) => {
 app.use(express.json()) //=>req.body
 app.use('/user', userRoutes);
 app.use('/anime', animeRoutes);
-app.use('/', (req, res) => {
-    res.send('Welcome to the Anime API')
-})
 
 
 app.listen(PORT, () => {
